@@ -6,12 +6,13 @@ import './App.css';
 import Weather from './components/weather_component';
 
  
-const API_key = process.env.REACT_REACT_API_KEY;
+const API_key = process.env.REACT_APP_API_KEY;
 
 class App extends React.Component{
   constructor(){
     super();
     this.state = {};
+    this.getWeather();
   }
 
   getWeather = async() => {
