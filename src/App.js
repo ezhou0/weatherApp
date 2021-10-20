@@ -49,11 +49,7 @@ export const App = () => {
           <Weather minTemp={i.minTemp} maxTemp={i.maxTemp} weatherType={i.weatherType} weatherKey={i.weatherKey}/>
         </div>
         
-        ))}
-
-        
-
-      
+        ))} 
       </div>
       
     );
