@@ -12,16 +12,28 @@ class App extends React.Component{
   constructor(){
     super();
     this.state = {
-      lat: undefined,
-      long: undefined
+     weatherInfo: null
     };
    
-    this.getLocation = this.getLocation.bind(this);
-    this.getCoordinates = this.getCoordinates.bind(this);
-     this.getWeather();
+    // this.getLocation = this.getLocation.bind(this);
+    // this.getCoordinates = this.getCoordinates.bind(this);
+    //  this.getWeather();
+
+   
   }
 
+  componentDidMount(){
+    fetch(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/locationKey=37858_PC?apikey=${API_key}`)
+      .then(res => res.json())
+      // .then(res => console.log(res))
+      .then(weatherInfo => {this.setState({weatherInfo: weatherInfo.DailyForecasts})})
+      .then(() => console.log(this.state.weatherInfo));
 
+
+      
+  }
+
+ 
   getLocation(){
     if (navigator.geolocation){
       navigator.geolocation.getCurrentPosition(this.getCoordinates);
