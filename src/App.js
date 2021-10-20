@@ -1,30 +1,44 @@
 import React from 'react';
 // import logo from './logo.svg';
 import './App.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Weather } from './components/weather_component'
 
-
-import Weather from './components/weather_component';
 
 // const location_key = 90025; 
 
 const API_key = process.env.REACT_APP_API_KEY;
 export const App = () => {
-  
+    const [weatherInfo, setWeatherInfo] = useState();
     useEffect(()=>{
         fetch(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/locationKey=37858_PC?apikey=${API_key}`)
               .then(res => res.json())
               // .then(res => console.log(res))
-              .then(weatherInfo => {this.setState({weatherInfo: weatherInfo.DailyForecasts})})
+              .then(res => setWeatherInfo(res.DailyForecasts.map(dailycast => {
+                return{
+                  minTemp: dailycast.Temperature.Minimum.Value,
+                  maxTemp: dailycast.Temperature.Maximum.Value,
+                  weatherType: dailycast.Day.IconPhrase,
+                }
+              })));
     },[]);
+
+    useEffect(()=>{
+      console.log(weatherInfo);
+    },[weatherInfo])
 
       return(
       <div className="App">
-        <Weather/>
+        {!!weatherInfo && weatherInfo.map((i,index)=>(
+        <div key={index}>
+          <Weather minTemp={i.minTemp} maxTemp={i.maxTemp} weatherType={i.weatherType}/>
+        </div>
+        
+        ))}
 
-       {/* {this.state.weatherInfo.map((i, index)=>
-        (<div key = {index}> </div>)
-       )} */}
+        
+
+      
       </div>
       
     );
