@@ -3,12 +3,15 @@ import React from 'react';
 import './App.css';
 import { useEffect, useState } from 'react';
 import { Weather } from './components/weather_component'
+import { LocationSearch } from './components/search_component';
 
 
 // const location_key = 90025; 
 
 const API_key = process.env.REACT_APP_API_KEY;
 export const App = () => {
+
+    const [locationKey, setLocationKey] = useState('')
     const [weatherInfo, setWeatherInfo] = useState();
 
     const twoDigit = (num) =>{
@@ -23,7 +26,8 @@ export const App = () => {
     }
 
     useEffect(()=>{
-        fetch(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/locationKey=37858_PC?apikey=${API_key}`)
+      if(locationKey){
+        fetch(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/locationKey=${locationKey}?apikey=${API_key}`)
               .then(res => res.json())
               // .then(res => console.log(res))
               .then(res => { setWeatherInfo(res.DailyForecasts.map(dailycast => {
@@ -35,8 +39,8 @@ export const App = () => {
                 } 
               
               }))
-            });
-    },[]);
+            });}
+    },[locationKey]);
 
     useEffect(()=>{
       // console.log(weatherInfo);
@@ -44,6 +48,13 @@ export const App = () => {
 
       return(
       <div className="App">
+
+       
+          <LocationSearch onCityFound={cityInfo=>{
+            setLocationKey(cityInfo.key)
+          }} />
+  
+
         {!!weatherInfo && weatherInfo.map((i,index)=>(
         <div key={index}>
           <Weather minTemp={i.minTemp} maxTemp={i.maxTemp} weatherType={i.weatherType} weatherKey={i.weatherKey}/>
