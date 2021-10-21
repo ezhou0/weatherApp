@@ -60,29 +60,30 @@ export const App = () => {
       return(
       <div className="App">
 
-       
+          <nav className = 'search-container'>
           <LocationSearch onCityFound={cityInfo=>{
             setLocationKey(cityInfo.key);
             setLocation(cityInfo.name +', ' + cityInfo.state);
           }} />
+          </nav>
 
           <div>   
           <h1>{location}</h1>
           </div>
   
-
-        {!!weatherInfo && weatherInfo.map((i,index)=>(
-        <div key={index}>
-          <Weather 
-            minTemp={i.minTemp} 
-            maxTemp={i.maxTemp} 
-            weatherType={i.weatherType} 
-            weatherKey={i.weatherKey}
-            dayOfWeek = {i.dayOfWeek}
-            />
-        </div>
-        
-        ))} 
+          <div className = 'forecast-container'>
+            {!!weatherInfo && weatherInfo.map((i,index)=>(
+              <div key={index} >
+                <Weather 
+                  minTemp={i.minTemp} 
+                  maxTemp={i.maxTemp} 
+                  weatherType={i.weatherType} 
+                  weatherKey={i.weatherKey}
+                  dayOfWeek = {i.dayOfWeek}
+                  />
+              </div>
+            ))} 
+         </div>
       </div>
       
     );

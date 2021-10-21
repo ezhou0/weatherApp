@@ -1,8 +1,13 @@
 .App{
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  
   background-color: lightblue;
   height: 100vh;
+}
+
+.search-container{
+  
 }
 
 .cast-container{
@@ -20,4 +25,9 @@
   text-shadow: 0px 0px 1px black;
 
   font-size: 10px;
+}
+
+.forecast-container{
+  display:flex;
+  flex-direction: row;
 }
