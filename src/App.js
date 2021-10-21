@@ -13,6 +13,16 @@ export const App = () => {
 
     const [locationKey, setLocationKey] = useState('')
     const [weatherInfo, setWeatherInfo] = useState();
+    const [location, setLocation] = useState('');
+    const daysOfWeek =[
+      'Sunday', 
+      'Monday', 
+      'Tuesday', 
+      'Wednesday', 
+      'Thursday', 
+      'Friday', 
+      'Saturday'
+    ]
 
     const twoDigit = (num) =>{
       const stringNum = "" + num;
@@ -36,11 +46,12 @@ export const App = () => {
                   maxTemp: dailycast.Temperature.Maximum.Value,
                   weatherType: dailycast.Day.IconPhrase,
                   weatherKey: twoDigit(dailycast.Day.Icon),
+                  dayOfWeek: daysOfWeek[new Date(dailycast.Date).getDay()],
                 } 
               
               }))
             });}
-    },[locationKey]);
+    },[locationKey, daysOfWeek]);
 
     useEffect(()=>{
       // console.log(weatherInfo);
@@ -51,13 +62,24 @@ export const App = () => {
 
        
           <LocationSearch onCityFound={cityInfo=>{
-            setLocationKey(cityInfo.key)
+            setLocationKey(cityInfo.key);
+            setLocation(cityInfo.name +', ' + cityInfo.state);
           }} />
+
+          <div>   
+          <h1>{location}</h1>
+          </div>
   
 
         {!!weatherInfo && weatherInfo.map((i,index)=>(
         <div key={index}>
-          <Weather minTemp={i.minTemp} maxTemp={i.maxTemp} weatherType={i.weatherType} weatherKey={i.weatherKey}/>
+          <Weather 
+            minTemp={i.minTemp} 
+            maxTemp={i.maxTemp} 
+            weatherType={i.weatherType} 
+            weatherKey={i.weatherKey}
+            dayOfWeek = {i.dayOfWeek}
+            />
         </div>
         
         ))} 
